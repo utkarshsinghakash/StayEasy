@@ -109,12 +109,9 @@
     image: "<%=listing.image%>",
     handler: async (response) => {
       try {
-        const res = await axios.post(
-          "http://localhost:8080/listing/booking/verify-payment",
-          {
-            razorpay_payment_id: response.razorpay_payment_id,
-          }
-        );
+        const res = await axios.post("<%=backendURL%>", {
+          razorpay_payment_id: response.razorpay_payment_id,
+        });
 
         console.log(res);
 

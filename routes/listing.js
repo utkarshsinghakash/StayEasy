@@ -68,6 +68,14 @@ router.get("/new", (req, res) => {
 });
 
 //booking route
+// router.get('booking/payment', (req, res) => {
+//   const backendURL = process.env.NODE_ENV === 'production'
+//     ? 'https://your-production-url.com/listing/booking/verify-payment'
+//     : 'http://localhost:8080/listing/booking/verify-payment';
+
+//   res.render('payment', { backendURL });
+// });
+
 router.post("/booking/payment", async (req, res) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
@@ -81,6 +89,11 @@ router.post("/booking/payment", async (req, res) => {
   req.session.userId = userId;
   let user = await User.findById(userId);
 
+  const backendURL =
+    process.env.NODE_ENV === "production"
+      ? "https://stayeasy-xbel.onrender.com/listing/booking/verify-payment"
+      : "http://localhost:8080/listing/booking/verify-payment";
+
   const listing = await Listing.findById(req.session.listingId);
   const razorpayId = process.env.RAZORPAY_ID_KEY;
   res.render("./listing/payment.ejs", {
@@ -88,6 +101,7 @@ router.post("/booking/payment", async (req, res) => {
     bookingInfo,
     user,
     razorpayId,
+    backendURL,
   });
 });
 
