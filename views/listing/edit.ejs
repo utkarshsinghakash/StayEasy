@@ -1,0 +1,90 @@
+<%layout("/layouts/boilerplate")-%>
+  <body>
+    <div class="row">
+      <div class="col-8 offset-2">
+        <br/><br/>
+    <h2>Edit Your Listing</h2>
+   <br/>
+    <form method="POST" action="/listing/<%=thislisting._id%>?_method=PATCH" novalidate class="needs-validation">
+      <div>
+      <label for="title" class="form-label"><b>Title</b>:</label>
+      <input name="title" placeholder="title" 
+      class="form-control" 
+      value="<%=thislisting.title%>" required/>
+      <div class="invalid-feedback">
+        Please provide a valid title.
+      </div>
+    </div>
+      <br/> 
+      
+      <div>
+      <label class="form-label" for="description"><b>Description</b>:</label>
+      <textarea   class="form-control" rows="5" cols="50" name="description" required>
+<%=thislisting.description%></textarea
+      >
+      <div class="invalid-feedback">
+        Please provide a valid description.
+      </div>
+    </div>
+      <br />
+      
+      <div>
+      <label class="form-label" for="image"><b>Image Url</b>:</label>
+      <input required name="image"  class="form-control" placeholder="image"  value="<%=thislisting.image%>"/>
+      <div class="invalid-feedback">
+        Please provide a valid Link.
+      </div>
+    </div>
+      <br />
+ 
+      <div class="row">
+        <div class="col-md-4">
+      <label class="form-label" for="price"><b>Price</b>:</label>
+      <input required
+        name="price"  class="form-control"
+        placeholder="price"
+        type="number"
+        value="<%=thislisting.price%>"
+      />
+      <div class="invalid-feedback">
+        Please provide a valid price.
+      </div>
+      </div>
+      <div class="col-md-8">
+      <label class="form-label" for="country"><b>Country</b>:</label>
+      <input required class="form-control"
+        name="country"
+        placeholder="country"
+        value="<%=thislisting.country%>"
+      />
+   
+      <div class="invalid-feedback">
+        Please provide a valid country.
+      </div>
+    </div>
+      </div>
+
+      <br />
+     <div>
+      <label class="form-label" for="location"><b>Location</b>:</label>
+      <input 
+        name="location"  class="form-control"
+        placeholder="location"
+        value="<%=thislisting.location%>"
+        required  />
+        <div class="invalid-feedback">
+          Please provide a valid location.
+        </div>
+      </div>
+      <br />
+      
+      
+      <button class="btn btn-primary">Save changes</button>
+      <br/><br/>
+    </form>
+  </div>
+</div>
+
+  </body>
+</html>
+<script src="/js/script.js"></script>

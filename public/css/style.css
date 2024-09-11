@@ -1,0 +1,126 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container {
+  flex: 1;
+}
+
+.title {
+  color: black;
+  text-decoration: none;
+}
+
+/* navbar */
+.navbar {
+  height: 4rem;
+}
+.fa-compass {
+  color: rgb(248, 32, 32);
+}
+.nav-link {
+  color: #222222 !important;
+}
+
+.f-info-links a {
+  text-decoration: none;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+.f-info-links {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.f-info-brand {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.f-info-socials {
+  width: 100%;
+  font-size: 1.3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.f-info-socials i {
+  margin-right: 1rem;
+}
+.f-info {
+  bottom: 0px;
+  height: 8rem;
+  text-align: center;
+  background-color: #ebebeb;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: space-evenly;
+  justify-content: center;
+}
+.card-img-top {
+  width: 100% !important;
+  /* width: 18rem !important; */
+  height: 20rem;
+  object-fit: cover !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 1rem !important;
+}
+.card-img-top img {
+  transition: transform 0.3s ease-in-out !important;
+}
+.card-img-top:hover img {
+  transform: scale(1.1) !important;
+}
+
+.listing-card {
+  /* width: 20rem !important; */
+  border: none !important;
+  transition: transform 0.3s ease-in-out !important;
+  margin-bottom: 2rem !important;
+  margin-right: 1rem !important;
+}
+.card:hover {
+  transform: scale(1.02) !important;
+}
+.card-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.listing-links {
+  text-decoration: none !important;
+}
+/* .card-img-overlay {
+  opacity: 0;
+}
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+} */
+
+.show-img {
+  height: 30vh;
+  border-radius: 1rem;
+}
+
+.btns {
+  display: flex !important;
+}
+
+.bg-nav-icon {
+  background-color: whitesmoke;
+}
+
+/* map */
+#map {
+  height: 400px;
+  width: 80vh;
+}

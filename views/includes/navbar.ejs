@@ -1,0 +1,237 @@
+<style>
+  .navbar-nav.explore .nav-link {
+    font-size: 18px !important;
+  }
+  
+
+  .search-form{
+    margin-left:1rem;
+  }
+  .user-initial-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #008080; /* Bootstrap danger color */
+  color: rgb(247, 245, 245);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+  
+</style>
+<nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listing"
+      ><i class="fa-solid fa-compass"></i
+    ></a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="mt-1 navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse bg-nav-icon" id="navbarNavAltMarkup">
+      <div class="navbar-nav explore">
+        <a class="nav-link" href="/listing">Explore</a>
+       
+        <form class="d-flex search-form" role="search" method="POST" action="/listing/place/search">
+          <input
+            class="form-control me-2"
+            type="search"   
+            placeholder="Enter city"
+            aria-label="Search"
+            name="location"
+          />
+          <button class="btn btn-outline-danger" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listing/new">Airbnb your home</a>
+        <%if(!currUser){%>
+        <a class="nav-link" href="/signup"><b>SignUp</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+        <%}%> <%if(currUser){%>
+      
+
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid ">
+             
+              <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"> </span>
+              </a>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <div class="user-initial-circle">
+                        <%=  currUser.username.charAt(0).toUpperCase() %> 
+                      </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item">Name: <%= currUser.username %></a></li>
+                      <li><a class="dropdown-item">Email: <%= currUser.email %></a></li>
+                
+                      <li><a class="nav-link" href="/logout"><b>Logout</b></a></li>
+                    </ul>
+                  </li>
+
+
+        
+        <%}%>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter {
+    text-align: center;
+    margin-top: 1rem;
+    margin-right: 1.5rem;
+    opacity: 0.7;
+    margin-left: 0.3rem;
+  }
+  .filter a {
+    text-decoration: none;
+    color: #212529;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p {
+    font-size: 15px;
+  }
+
+  .filter-icon {
+    z-index: 1000;
+  }
+   .form-switch {
+    width:180px;
+    
+    padding:0.3rem;
+    padding-right:0.1rem;
+     border:1px solid black;
+     border-radius:1rem;
+  } 
+  .tax-info {
+    display: none;
+  }
+</style>
+
+<nav class="navbar navbar-2 navbar-expand-lg">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler icon-button"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fa-solid fa-sliders"></i>
+      Filters
+    </button>
+    <div
+      class="collapse navbar-collapse filter-icon bg-nav-icon"
+      id="navbarSupportedContent"
+    >
+      <div class="filters">
+        <div class="filter">
+          <div><i class="fa-solid fa-fire"></i></div>
+          <p>Trending</p>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/room">
+            <div>
+              <i class="fa-solid fa-bed"></i>
+              <p>Rooms</p>
+            </div>
+          </a>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/iconiccity">
+          <div><i class="fa-solid fa-mountain-city"></i></div>
+          <p>Iconic cities</p>
+        </div>
+      </a>
+        <div class="filter">
+          <a href="/listing/category/beach">
+          <div><i class="fa-solid fa-umbrella-beach"></i></div>
+          <p>Beach</p>
+          </a>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/mansion">
+          <div><i class="fa-solid fa-hotel"></i></div>
+          <p>Mansion</p>
+          
+        </a>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/castle">
+          <i class="fa-brands fa-fort-awesome"></i>
+          <p>Castles</p>
+        </a>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/camping">
+          <div><i class="fa-solid fa-campground"></i></div>
+          <p>Camping</p>
+           </a>
+        </div>
+        <div class="filter">
+          <a href="/listing/category/farm">
+          <div><i class="fa-solid fa-money-bill-wheat"></i></div>
+          <p>Farms</p>
+        </a>
+        </div>
+
+        <div class="form-check-reverse form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+          />
+          <label class="form-check-label" for="flexSwitchCheckDefault"
+            >Include all taxes</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  let formswitch = document.getElementById("flexSwitchCheckDefault");
+  let taxinfo = document.getElementsByClassName("tax-info");
+
+  formswitch.addEventListener("click", () => {
+    for (info of taxinfo) {
+      if (info.style.display != "inline") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+</script>

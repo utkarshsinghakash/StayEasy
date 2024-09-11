@@ -1,0 +1,145 @@
+<% layout("/layouts/boilerplate")-%>
+<style>
+  .booking-info {
+    display: flex;
+  }
+  .razorpay-checkout-iframe svg {
+    width: auto !important;
+    height: auto !important;
+  }
+  .booking-card {
+    border: 1px solid #cdcaca;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+    max-width: 300px;
+  }
+  .trip-info {
+    margin-bottom: 2rem;
+    border: 1px solid #c3c0c0;
+    max-width: 300px;
+    min-width: 180px;
+  }
+  .pay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn {
+    width: 100px;
+  }
+</style>
+<div class="row">
+  <h1 class="offset-1 mt-3 mb-5">Confirm & Pay</h1>
+  <div class="offset-2 booking-info row">
+    <div class="booking-card p-1 col-lg-5 col-md-4">
+      <div class="d-flex align-items-center justify-content-center mb-3">
+        <img
+          src="<%=listing.image%>"
+          alt="Listing Image"
+          class="rounded me-3"
+          style="width: 60px; height: 60px"
+        />
+        <div>
+          <h6 class="card-title mb-1"><%=listing.title%></h6>
+        </div>
+      </div>
+      <hr />
+      <h6 class="mb-3">Price details</h6>
+
+      <p class="mb-1 d-flex justify-content-between text-success">
+        &#8377;<%=listing.price.toLocaleString("en-IN")%>x <%=bookingInfo.day%>
+        days:
+        <span id="total-price"><%=listing.price*bookingInfo.day%></span>
+      </p>
+      <p class="d-flex justify-content-between text-success">
+        Taxes(18% GST):
+        <span id="total-price"><%=listing.price*bookingInfo.day*0.18%></span>
+      </p>
+      <hr />
+      <p class="d-flex justify-content-between text-success">
+        Total after taxes:
+        <span id="final-price"
+          ><%=listing.price*bookingInfo.day+listing.price*bookingInfo.day*0.18%></span
+        >
+      </p>
+    </div>
+
+    <div class="trip-info p-2 col-md-4">
+      <div class="card-body">
+        <h5 class="card-title d-flex justify-content-center align-items-center">
+          Your trip
+        </h5>
+        <hr />
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="mb-1">Dates</p>
+            <p class="text-muted">
+              <%=bookingInfo.checkIn%> to <%=bookingInfo.checkOut%>
+            </p>
+          </div>
+          <a href="/listing/<%=listing._id%>" class="text-decoration-none"
+            >Edit</a
+          >
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="mb-1">Guests</p>
+            <p class="text-muted"><%=bookingInfo.guests%> Guest</p>
+          </div>
+          <a href="/listing/<%=listing._id%>" class="text-decoration-none"
+            >Edit</a
+          >
+        </div>
+
+        <div class="pay">
+          <button class="btn btn-success" id="rzp-button1">Pay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var options = {
+    key: "<%=razorpayId%>", // Enter the Key ID generated from the Razorpay Dashboard
+    amount:
+      "<%=(listing.price*bookingInfo.day+listing.price*bookingInfo.day*0.18)*100%>", // Amount is in currency subunits. Multiply it by 100 for paise
+    currency: "INR",
+    name: "StayEasy",
+    description: "Booking Payment",
+    image: "<%=listing.image%>",
+    handler: async (response) => {
+      try {
+        const res = await axios.post(
+          "http://localhost:8080/listing/booking/verify-payment",
+          {
+            razorpay_payment_id: response.razorpay_payment_id,
+          }
+        );
+
+        console.log(res);
+
+        if (res) {
+          alert("Check your mail for booking details");
+        } else {
+          alert("Payment verification failed!");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while verifying the payment!");
+      }
+    },
+    prefill: {
+      name: "<%=user.username%>",
+      email: "<%=user.email%>",
+    },
+    theme: {
+      color: "#3399cc",
+    },
+  };
+
+  var rzp1 = new Razorpay(options);
+  document.getElementById("rzp-button1").onclick = function (e) {
+    rzp1.open();
+    e.preventDefault();
+  };
+</script>
