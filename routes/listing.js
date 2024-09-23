@@ -357,4 +357,13 @@ router.delete(
   })
 );
 
+//privacy policy
+router.get("/privacy-policy", (req, res) => {
+  res.render("./listing/privacy.ejs");
+});
+
+router.get('/terms', (req, res) => {
+  res.render('./listing/terms.ejs');
+});
+
 module.exports = router;
