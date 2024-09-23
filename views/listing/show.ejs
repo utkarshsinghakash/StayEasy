@@ -4,7 +4,10 @@
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 20px;
-    width: 100%;
+
+    max-height: 100%; /* Ensures it doesn’t grow beyond the page size */
+    overflow: auto; /* Adds scroll if the form content is too large */
+
     max-width: 400px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
