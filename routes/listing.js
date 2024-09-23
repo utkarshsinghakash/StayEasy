@@ -358,12 +358,12 @@ router.delete(
 );
 
 //privacy policy
-router.get("/privacy-policy", (req, res) => {
+router.get("/booking/privacy-policy", (req, res) => {
   res.render("./listing/privacy.ejs");
 });
 
-router.get('/terms', (req, res) => {
-  res.render('./listing/terms.ejs');
+router.get("/booking/terms", (req, res) => {
+  res.render("./listing/terms.ejs");
 });
 
 module.exports = router;

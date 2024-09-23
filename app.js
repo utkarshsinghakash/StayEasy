@@ -102,14 +102,7 @@ app.use((req, res, next) => {
   }
 });
 
-app.get(
-  "/",
-  wrapAsync(async (req, res) => {
-    let alllisting = await Listing.find({});
-    // console.log(alllisting);
-    res.render("./views/listing/index.ejs", { alllisting });
-  })
-);
+
 app.use("/listing", list);
 app.use("/listing/:id/review", review);
 app.use("/", user);
