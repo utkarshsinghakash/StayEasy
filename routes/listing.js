@@ -67,15 +67,6 @@ router.get("/new", (req, res) => {
   res.render("./listing/new.ejs");
 });
 
-//booking route
-// router.get('booking/payment', (req, res) => {
-//   const backendURL = process.env.NODE_ENV === 'production'
-//     ? 'https://your-production-url.com/listing/booking/verify-payment'
-//     : 'http://localhost:8080/listing/booking/verify-payment';
-
-//   res.render('payment', { backendURL });
-// });
-
 router.post("/booking/payment", async (req, res) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;

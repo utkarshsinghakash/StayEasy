@@ -1,80 +1,84 @@
 <%layout("/layouts/boilerplate")-%>
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+  body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f9f9f9;
+  }
+
   .booking-container {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 20px;
-    max-height: 550px;
-    max-width: 400px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    background-color: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .booking-container:hover {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   }
 
   .info {
     display: flex;
+    flex-wrap: wrap;
+  }
+
+  h2,
+  .price-per-night {
+    font-weight: 600;
   }
 
   .price-per-night {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-
-  .price-per-night span {
-    font-weight: normal;
-    font-size: 18px;
-  }
-
-  .booking-dates {
-    display: flex;
-    justify-content: space-between;
+    font-size: 26px;
+    color: #ff6b6b;
     margin-bottom: 15px;
   }
 
-  .check-in-out {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .check-in-out input {
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
-
-  .guests {
+  .booking-dates,
+  .guest-day {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     margin-bottom: 20px;
   }
 
+  .check-in-out label,
+  .guests label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+  }
+
+  .check-in-out input,
   .guests select {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-top: 5px;
   }
 
   .reserve-button {
     background: linear-gradient(90deg, #ff5a5f 0%, #ff6b6b 100%);
     color: white;
-    border: none;
-    border-radius: 8px;
-    width: 100%;
     padding: 15px;
+    border: none;
+    border-radius: 10px;
     font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    font-weight: bold;
+    transition: transform 0.3s ease;
   }
 
   .reserve-button:hover {
     background: linear-gradient(90deg, #ff6b6b 0%, #ff5a5f 100%);
+    transform: scale(1.05);
   }
 
   .no-charge {
     text-align: center;
     color: #777;
-    margin: 15px 0;
+    margin: 20px 0;
     font-size: 14px;
   }
 
@@ -86,7 +90,7 @@
   .price-breakdown p {
     display: flex;
     justify-content: space-between;
-    margin: 5px 0;
+    margin: 10px 0;
   }
 
   .price-breakdown hr {
@@ -94,192 +98,91 @@
     border-top: 1px solid #ddd;
     margin: 15px 0;
   }
+
+  .map-container {
+    margin-top: 30px;
+  }
+
+  #map {
+    height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .info {
+      flex-direction: column;
+    }
+    .booking-container {
+      margin-top: 20px;
+    }
+    .booking-dates,
+    .guest-day {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 <body>
   <div class="row mt-3">
-    <div class="col-8 offset-4">
-      <h2><%=myListing.title%></h2>
-      <br />
+    <div class="col-lg-8 offset-lg-4">
+      <h2><%= myListing.title %></h2>
     </div>
-    <br />
     <div class="info">
-      <div class="listing-card card col-6 offset-1">
-        <img class="card-img-top show-img" src="<%=myListing.image%>" />
+      <div class="listing-card card col-lg-6">
+        <img class="card-img-top show-img" src="<%= myListing.image %>" />
         <div class="card-body">
-          <p class="card-text">
-            <b>Rooms in <%=myListing.location%>,<%=myListing.country%></b>
+          <p>
+            <b>Rooms in <%= myListing.location %>, <%= myListing.country %></b>
           </p>
-
-          <hr />
-          <p class="card-text">
-            Hosted By <b><i><%=myListing.owner.username%></i></b>
+          <p>Hosted by <b><%= myListing.owner.username %></b></p>
+          <p>
+            Price: &#8377;<%= myListing.price.toLocaleString('en-IN') %> per
+            night
           </p>
-
-          <hr />
-          <p class="card-text">
-            &#8377;<%=myListing.price.toLocaleString("en-IN")%>/night
-          </p>
-          <hr />
-
-          <p class="card-text"><b>About this Place</b></p>
-          <p class="card-text"><%=myListing.description%></p>
-          <hr />
         </div>
       </div>
       <div class="booking-container col-lg-6">
-        <div class="price-per-night">
-          <%=myListing.price%> <span>/ night</span>
-        </div>
-
-        <form action="/listing/booking/payment" method="POST">
-          <div class="booking-dates row">
-            <div class="check-in-out col-md-4">
-              <label for="checkIn">CHECK-IN</label>
-              <input type="date" id="checkIn" name="checkIn" required />
+        <div class="price-per-night">&#8377;<%= myListing.price %> / night</div>
+        <form>
+          <div class="booking-dates">
+            <div>
+              <label for="checkIn">Check-In</label>
+              <input type="date" id="checkIn" name="checkIn" />
             </div>
-            <div class="check-in-out col-md-4">
-              <label for="checkOut">CHECKOUT</label>
-              <input type="date" id="checkOut" name="checkOut" required />
+            <div>
+              <label for="checkOut">Check-Out</label>
+              <input type="date" id="checkOut" name="checkOut" />
             </div>
           </div>
-          <div class="guest-day row">
-            <div class="check-in-out col-md-4">
-              <label for="day">DAY</label>
-              <input
-                type="number"
-                placeholder="No of days"
-                id="days"
-                name="day"
-                class="day"
-                readonly
-                required
-              />
+          <div class="guest-day">
+            <div>
+              <label for="days">Days</label>
+              <input type="number" id="days" readonly />
             </div>
-            <div class="guests col-md-4">
-              <label for="guests">GUESTS</label>
-              <select id="guests" name="guests">
-                <option value="1">1 guest</option>
-                <option value="2">2 guests</option>
-                <option value="3">3 guests</option>
+            <div>
+              <label for="guests">Guests</label>
+              <select id="guests">
+                <option>1 guest</option>
+                <option>2 guests</option>
+                <option>3 guests</option>
               </select>
             </div>
           </div>
           <button type="submit" class="reserve-button">Reserve</button>
-
           <p class="no-charge">You won't be charged yet</p>
-
-          <!-- Dynamic Total Price Section -->
           <div class="price-breakdown">
-            <p>
-              &#8377;<%=myListing.price.toLocaleString("en-IN")%> x
-              <span id="total-nights">1</span> nights =
-              <span id="total-price"><%=myListing.price%></span>
-            </p>
-            <hr />
-            <p>
-              Total after taxes(+18% GST):
-              <span id="final-price"
-                ><%=myListing.price+myListing.price*0.18%></span
-              >
-            </p>
+            <p>Total Price: &#8377;<span id="total-price">0</span></p>
+            <p>Total with Tax: &#8377;<span id="final-price">0</span></p>
           </div>
         </form>
       </div>
     </div>
-  </div>
-
-  <%if(currUser&&currUser._id.equals(myListing.owner._id)){%>
-  <div class="btns offset-2">
-    <form method="GET" action="/listing/<%=myListing._id%>/edit">
-      <button class="btn btn-primary">Edit</button>
-    </form>
-
-    <!-- <a class="btn btn-dark offset-1" href="/listing">Back</a> -->
-
-    <form method="POST" action="/listing/<%=myListing._id%>?_method=DELETE">
-      <button class="btn btn-danger offset-6">Delete</button>
-    </form>
-  </div>
-  <%}%> <%if(currUser){%>
-  <div class="col-8 offset-2 mb-3">
-    <hr />
-    <h4>Leave a Review</h4>
-    <form
-      action="/listing/<%=myListing._id%>/review"
-      method="POST"
-      class="needs-validation"
-      novalidate
-    >
-      <label for="rating" class="form-label">Rating</label>
-      <fieldset class="starability-slot">
-        <input
-          type="radio"
-          id="no-rate"
-          class="input-no-rate"
-          name="review[rating]"
-          value="1"
-          checked
-          aria-label="No rating."
-        />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-      </fieldset>
-      <div class="mb-3">
-        <label for="comment" class="form-label">Comments</label>
-        <textarea
-          required
-          cols="30"
-          rows="3"
-          name="review[comment]"
-          class="form-control"
-        ></textarea>
-        <div class="invalid-feedback">please enter the comment!</div>
-      </div>
-      <button class="btn btn-outline-dark">Submit</button>
-    </form>
-  </div>
-  <%}%> <%if(myListing.reviews.length){%>
-  <div class="col-8 offset-2 mb-3">
-    <hr />
-    <h4>All Review</h4>
-    <div class="row">
-      <%for(review of myListing.reviews){%>
-      <div class="card mb-3 col-5 ms-3">
-        <div class="card-body">
-          <h5 class="card-title mt-2">@<%=review.author.username%></h5>
-
-          <p class="starability-result" data-rating="<%=review.rating%>"></p>
-
-          <p class="card-text"><%=review.comment%></p>
-        </div>
-
-        <form
-          class="mb-3"
-          method="POST"
-          action="/listing/<%=myListing._id%>/review/<%=review._id%>?_method=DELETE"
-        >
-          <button class="btn mt-3 btn-dark">Delete</button>
-        </form>
-      </div>
-
-      <%}%>
+    <div class="col-lg-8 offset-lg-2 map-container">
+      <h3>Where you'll be</h3>
+      <div id="map"></div>
     </div>
   </div>
-  <%}%>
-  <div class="col-8 offset-2 mb-3">
-    <h3>Where you'll be</h3>
-    <div id="map"></div>
-  </div>
-  <br />
-  <br />
 </body>
 
 <script>
@@ -296,26 +199,30 @@
       document.getElementById("total-nights").innerText = days;
 
       // Calculate the total price
-      const pricePerNight = <%= myListing.price %>;
+      const pricePerNight = "<%= myListing.price %>";
       const totalPrice = pricePerNight * days;
       document.getElementById("total-price").innerText = totalPrice.toFixed(2);
 
       // Calculate the final price including taxes (18% GST)
       const totalWithTax = totalPrice + totalPrice * 0.18;
-      document.getElementById("final-price").innerText = totalWithTax.toFixed(2);
+      document.getElementById("final-price").innerText =
+        totalWithTax.toFixed(2);
     } else {
       // Reset values if checkout date is before check-in date
-      document.getElementById("days").value = '';
+      document.getElementById("days").value = "";
       document.getElementById("total-nights").innerText = 0;
-      document.getElementById("total-price").innerText = '0';
-      document.getElementById("final-price").innerText = '0';
+      document.getElementById("total-price").innerText = "0";
+      document.getElementById("final-price").innerText = "0";
     }
   }
 
   // Attach event listeners to the date inputs to recalculate on change
-  document.getElementById("checkIn").addEventListener("change", calculateDaysAndTotal);
-  document.getElementById("checkOut").addEventListener("change", calculateDaysAndTotal);
-
+  document
+    .getElementById("checkIn")
+    .addEventListener("change", calculateDaysAndTotal);
+  document
+    .getElementById("checkOut")
+    .addEventListener("change", calculateDaysAndTotal);
 
   let coordinates = JSON.parse(
     "<%-JSON.stringify(myListing.geometry.coordinates)%>"
